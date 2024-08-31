@@ -5,19 +5,34 @@
 #include <vector>
 
 #include "Movie.hpp"
+#include "validator.h"
+#include "Database.hpp"
 
 using namespace std;
 
 class CustomerC{
 	public:
-		CustomerC(const string& mail, uint8_t phoneNum) : m_mail(mail), m_phoneNum(phoneNum)
-		{}
+		CustomerC(const string& mail, string phoneNum)
+		{
+			Validator valid;
+			if(valid.validateEmail(mail) && valid.validatePhoneNumber(phoneNum))
+			{
+				unique_ptr<DatabaseC>& database = DatabaseC::GetDatabaseInst();
+				m_mail = mail;
+				m_phoneNum = phoneNum;
+				database->Save(mail, phoneNum);
+			}
+			else
+			{
+				cout << "Invalid Phone Number or Email" << endl;
+			}
+		};
 		void SetMail(const string& mail) { m_mail = mail; };
 		const string& GetMail() const { return m_mail; }
-		void SetPhoneNum(uint8_t phoneNum) { m_phoneNum = phoneNum; }
-		const uint8_t& GetPhoneNum() const { return m_phoneNum; } 
+		void SetPhoneNum(string& phoneNum) { m_phoneNum = phoneNum; }
+		const string& GetPhoneNum() const { return m_phoneNum; } 
 	private:
 		string m_mail;
-		uint8_t m_phoneNum;
-};
+		string m_phoneNum;
+};		
 #endif
