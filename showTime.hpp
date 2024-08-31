@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include "common.hpp"  // Assuming you have enums for DayE, TimeE, etc.
+#include "Common.hpp"  // Assuming you have enums for DayE, TimeE, etc.
 
 class ShowTimeC {
 public:
@@ -21,6 +21,9 @@ public:
     void ReserveSeat(size_t seatIndex);
     const std::vector<bool>& GetSeats() const;
     bool IsSeatReserved(size_t seatIndex) const;
+    void DisplaySeats() const;
+    bool BookSeat(char row, int col);  
+
 
 private:
     DayE m_movieDay;
